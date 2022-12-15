@@ -1,0 +1,65 @@
+{{#each errors}}
+  <div class="alert alert-danger">{{message}}</div>
+{{/each}}
+<div class="card">
+  <div class="card-body">
+    <h4>Editar postagem</h4>
+    <form action="/admin/posts/alter/{{post._id}}" method="post">
+      <div class="mb-3">
+        <label for="title" class="form-label">Título</label>
+        <input
+          type="text"
+          name="title"
+          class="form-control"
+          placeholder="Nome da postagem"
+          value="{{post.title}}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="slug" class="form-label">Slug</label>
+        <input
+          type="text"
+          class="form-control"
+          name="slug"
+          placeholder="Slug da postagem"
+          value="{{post.slug}}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Descrição</label>
+        <input
+          type="text"
+          class="form-control"
+          name="description"
+          placeholder="Descrição da postagem"
+          value="{{post.description}}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">Conteúdo</label>
+        <textarea
+          name="content"
+          id="content"
+          rows="10"
+          class="form-control"
+        >{{post.content}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Categoria</label>
+        <select
+          name="category"
+          id="category"
+          class="form-select"
+          aria-label="Selecione a categoria"
+        >
+          {{#each categories}}
+            <option value="{{_id}}">{{name}}</option>
+          {{else}}
+            <option value="0">Nenhuma categoria registrada</option>
+          {{/each}}
+        </select>
+      </div>
+      <button class="btn btn-success" type="submit">Editar</button>
+    </form>
+  </div>
+</div>

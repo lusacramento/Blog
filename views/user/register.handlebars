@@ -1,0 +1,60 @@
+{{#each errors}}
+  <div class="alert alert-danger">
+    {{message}}
+  </div>
+{{else}}
+{{/each}}
+
+<h3>Crie sua conta</h3>
+<div class="card">
+  <div class="card-body">
+    <form action="" method="post">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" name="name" />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          aria-describedby="emailHelp"
+        />
+        <div id="emailHelp" class="form-text">Nunca compartilharemos seu e-mail
+          com mais ninguém.</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="repeatpassword" class="form-label">Repita Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="repeatpassword"
+        />
+      </div>
+      <div class="mb-3 form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="isaccepted"
+          name="isaccepted"
+        />
+        <label class="form-check-label" for="exampleCheck1">Aceito os termos e
+          condições de uso</label>
+      </div>
+      <button class="btn btn-success" type="submit">Criar conta</button>
+
+    </form>
+  </div>
+</div>

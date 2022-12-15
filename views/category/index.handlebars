@@ -1,0 +1,14 @@
+<h4>
+  Categorias
+</h4>
+<ul>
+  {{#each categories}}
+    <li>
+      <a href="/category/{{slug}}">
+        {{name}}
+      </a>
+    </li>
+  {{else}}
+    <h5>Não existe categoria cadastrada!</h5>
+  {{/each}}
+</ul>

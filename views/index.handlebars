@@ -1,0 +1,43 @@
+<div class="p-5 mb-4 bg-light rounded-3">
+  <div class="container-fluid py-5">
+    <h1 class="display-5 fw-bold"><font style="vertical-align: inherit;"><font
+          style="vertical-align: inherit;"
+        >Bem vindo ao Blog!</font></font></h1>
+    <p class="col-md-8 fs-4"><font style="vertical-align: inherit;"><font
+          style="vertical-align: inherit;"
+        >Este blog foi desenvolvido com as tecnologias Node.js, Express e
+          MongoDb.
+        </font><font style="vertical-align: inherit;">Aqui, você vai ficar por
+          dentro sobre tudo que acontece no mundo da tecnologia! Faça já seu
+          cadastro e venha contribuir conosco!!!</font></font></p>
+    <a href="/users/register">
+      <button class="btn btn-primary btn-lg" type="button"><font
+          style="vertical-align: inherit;"
+        ><font style="vertical-align: inherit;">Cadastrar</font></font></button>
+    </a>
+    <p class="mt-2">
+      <small><a href="/users/login">Já é usuário? Fazer login</a></small>
+    </p>
+  </div>
+</div>
+<main>
+  <h2>Postagens recentes</h2>
+  {{#each posts}}
+    <div class="card mt-3">
+      <div class="card-body">
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
+        <a href="/post/{{slug}}">
+          <div class="btn btn-success">Leia mais...</div>
+        </a>
+        <hr />
+        <small>Categoria: {{category.name}}</small>
+        <br />
+        <small>Data de publicação: {{category.name}}</small>
+
+      </div>
+    </div>
+  {{else}}
+    <h5>Nenhuma postagem</h5>
+  {{/each}}
+</main>
