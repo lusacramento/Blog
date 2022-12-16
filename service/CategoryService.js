@@ -6,8 +6,8 @@ require("../models/Category");
 const Category = mongoose.model("category");
 
 module.exports = {
-  findAll: async (req, res, model, isJson) => {
-    const result = await repository.findAll(model);
+  findAll: async (req, res, isJson) => {
+    const result = await repository.findAll(Category);
     // Checking is exist docs
     if (result.docs) {
       if (result.docs.length !== 0) {
@@ -39,13 +39,13 @@ module.exports = {
       }
   },
 
-  findById: async (req, res, model, isJson) => {
+  findById: async (req, res, category, isJson) => {
     // Testing if Id is a ObjectId valid.
     const isIdValid = mongoose.Types.ObjectId.isValid(req.params.id);
 
     let result = {};
     if (isIdValid) {
-      result = await repository.findById(model, req.params.id);
+      result = await repository.findById(Category, req.params.id);
     }
 
     // Checking is exist a doc
@@ -78,7 +78,7 @@ module.exports = {
       }
   },
 
-  save: async (req, res, model, isJson) => {
+  save: async (req, res, isJson) => {
     let errors = [];
 
     // Validating data
@@ -98,7 +98,7 @@ module.exports = {
       res.render("admin/addCategory", { errors: errors, category: category });
     } else {
       // Trying save data
-      const result = await repository.save(model, category);
+      const result = await repository.save(Category, category);
 
       // Checking is exist docs
       if (result.docs) {
@@ -128,13 +128,13 @@ module.exports = {
     }
   },
 
-  alter: async (req, res, model, isJson) => {
+  alter: async (req, res, isJson) => {
     const category = {
       _id: req.params.id,
       name: req.body.name,
       slug: req.body.slug,
     };
-    const result = await repository.findByIdAndUpdate(model, category);
+    const result = await repository.findByIdAndUpdate(Category, category);
     if (result.doc) {
       if (isJson) {
         res.status(200).json(result.doc);
@@ -174,8 +174,8 @@ module.exports = {
     }
   },
 
-  remove: async (req, res, model, isJson) => {
-    const result = await repository.findByIdAndRemove(model, req.body.id);
+  remove: async (req, res, isJson) => {
+    const result = await repository.findByIdAndRemove(Category, req.body.id);
 
     if (result.err) {
       if (isJson) {
