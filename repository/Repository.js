@@ -32,9 +32,9 @@ module.exports = {
     return result;
   },
 
-  save: async (Model, model) => {
+  save: async (model, data) => {
     const result = {};
-    await new Model(model)
+    await new model(data)
       .save()
       .then((docs) => {
         result.docs = docs._doc;
@@ -42,6 +42,22 @@ module.exports = {
       .catch((err) => {
         result.err = err;
       });
+
+    return result;
+  },
+
+  findByIdAndUpdate: async (model, data, update) => {
+    const result = {};
+    await model
+      .findByIdAndUpdate(data._id, data, (err, doc) => {
+        if (err) {
+          result.err = err;
+        } else {
+          result.doc = doc;
+        }
+      })
+      .lean()
+      .clone();
 
     return result;
   },

@@ -21,7 +21,11 @@ router.get("/edit/:id", (req, res) => {
   categoryService.findById(req, res, Category, isJson);
 });
 
-router.use("/", (req, res) => {
+router.post("/alter/:id", (req, res) => {
+  categoryService.alter(req, res, Category, isJson);
+});
+
+router.get("/", (req, res) => {
   categoryService.findAll(req, res, Category, isJson);
 });
 module.exports = router;

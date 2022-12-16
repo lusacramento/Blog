@@ -17,8 +17,11 @@ router.post("/save", (req, res) => {
   categoryService.save(req, res, Category, isJson);
 });
 
+router.post("/alter/:id", (req, res) => {
+  categoryService.alter(req, res, Category, isJson);
+});
+
 router.get("/", (req, res) => {
-  console.log(req.params.id);
   categoryService.findAll(req, res, Category, isJson);
 });
 

@@ -124,4 +124,50 @@ module.exports = {
       }
     }
   },
+
+  alter: async (req, res, model, isJson) => {
+    const category = {
+      _id: req.params.id,
+      name: req.body.name,
+      slug: req.body.slug,
+    };
+    const result = await repository.findByIdAndUpdate(model, category);
+    if (result.doc) {
+      if (isJson) {
+        res.status(200).json(result.doc);
+      } else {
+        req.flash("successMessage", "Categoria alterada com sucesso!");
+        res.redirect("/admin/categories");
+      }
+    } else {
+      if (isJson) {
+        res.status(404).json({
+          erro: "404",
+          mensagem: `Não existe categoria com o id! ${req.params.id}`,
+        });
+      } else {
+        req.flash(
+          "errorMessage",
+          `Esta categoria não existe! ${result.err.message}`
+        );
+        res.redirect("/admin/categories");
+      }
+    }
+
+    // Checking is exist error
+    if (result.err) {
+      if (isJson) {
+        res.status(400).json({
+          erro: "400",
+          mensagem: "Ocorreu um erro ao alterar a categoria!",
+        });
+      } else {
+        req.flash(
+          "errorMessage",
+          `Houve um erro ao alterar a categoria! ${result.err.message}`
+        );
+        res.redirect("/admin");
+      }
+    }
+  },
 };

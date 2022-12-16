@@ -16,23 +16,6 @@ router.get("/", isAdmin, (req, res) => {
   res.render("admin/index");
 });
 
-router.post("/categories/alter/:id", isAdmin, (req, res) => {
-  const category = {
-    _id: req.params.id,
-    name: req.body.name,
-    slug: req.body.slug,
-  };
-  Category.findByIdAndUpdate(category._id, category, (err) => {
-    if (err) {
-      req.flash("errorMessage", "Não foi possível alterar a categoria");
-      res.redirect("/admin/categories");
-    } else {
-      req.flash("successMessage", "Categoria editada com sucesso!");
-      res.redirect("/admin/categories");
-    }
-  });
-});
-
 router.post("/categories/remove", isAdmin, (req, res) => {
   Category.findByIdAndRemove(req.body.id, (err) => {
     if (err) {
