@@ -17,17 +17,17 @@ router.get("/", isAdmin, (req, res) => {
 });
 
 // Rotas Categorias
-router.get("/categories", isAdmin, (req, res) => {
-  Category.find()
-    .sort({ date: "desc" })
-    .lean()
-    .then((categories) => {
-      res.render("admin/categories", { categories: categories });
-    })
-    .catch((err) => {
-      req.flash("errorMessage", "Houve um erro ao listar as categorias!");
-    });
-});
+// router.get("/categories", isAdmin, (req, res) => {
+//   Category.find()
+//     .sort({ date: "desc" })
+//     .lean()
+//     .then((categories) => {
+//       res.render("admin/categories", { categories: categories });
+//     })
+//     .catch((err) => {
+//       req.flash("errorMessage", "Houve um erro ao listar as categorias!");
+//     });
+// });
 
 router.get("/categories/add", isAdmin, (req, res) => {
   res.render("admin/addCategory");

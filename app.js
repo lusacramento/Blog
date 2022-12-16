@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const flash = require("connect-flash");
 
+const categoryRestController = require("./controller/rest/CategoryRestController");
+const categoryNodeController = require("./controller/node/CategoryNodeController");
+
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
@@ -80,6 +83,9 @@ mongoose
   });
 
 // Rotas
+
+app.use("/api", categoryRestController);
+app.use("/admin", categoryNodeController);
 
 app.use("/admin", adminRoute);
 app.use("/users", userRoute);
