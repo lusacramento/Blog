@@ -61,4 +61,17 @@ module.exports = {
 
     return result;
   },
+
+  findByIdAndRemove: async (model, id) => {
+    const result = {};
+    await model
+      .findByIdAndRemove(id, (err) => {
+        if (err) {
+          result.err = err;
+        }
+      })
+      .clone();
+
+    return result;
+  },
 };

@@ -16,18 +16,6 @@ router.get("/", isAdmin, (req, res) => {
   res.render("admin/index");
 });
 
-router.post("/categories/remove", isAdmin, (req, res) => {
-  Category.findByIdAndRemove(req.body.id, (err) => {
-    if (err) {
-      req.flash("errorMessage", "Não foi possível apagar a categoria");
-      res.redirect("/admin/categories");
-    } else {
-      req.flash("successMessage", "Categoria apagada com sucesso!");
-      res.redirect("/admin/categories");
-    }
-  });
-});
-
 // Rotas Postagens
 router.get("/posts", isAdmin, (req, res) => {
   Post.find()

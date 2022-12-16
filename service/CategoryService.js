@@ -2,6 +2,9 @@ const repository = require("../repository/Repository");
 const validation = require("../utils/Validation");
 const mongoose = require("mongoose");
 
+require("../models/Category");
+const Category = mongoose.model("category");
+
 module.exports = {
   findAll: async (req, res, model, isJson) => {
     const result = await repository.findAll(model);
@@ -167,6 +170,28 @@ module.exports = {
           `Houve um erro ao alterar a categoria! ${result.err.message}`
         );
         res.redirect("/admin");
+      }
+    }
+  },
+
+  remove: async (req, res, model, isJson) => {
+    const result = await repository.findByIdAndRemove(model, req.body.id);
+
+    if (result.err) {
+      if (isJson) {
+        res
+          .status(400)
+          .json(`Erro ao apagar a categoria com id ${req.body.id}`);
+      } else {
+        req.flash("errorMessage", "Não foi possível apagar a categoria");
+        res.redirect("/admin/categories");
+      }
+    } else {
+      if (isJson) {
+        res.status(204).json("Categoria apagada com sucesso!");
+      } else {
+        req.flash("successMessage", "Categoria apagada com sucesso!");
+        res.redirect("/admin/categories");
       }
     }
   },

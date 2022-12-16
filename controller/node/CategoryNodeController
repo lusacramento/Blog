@@ -28,4 +28,8 @@ router.post("/alter/:id", (req, res) => {
 router.get("/", (req, res) => {
   categoryService.findAll(req, res, Category, isJson);
 });
+
+router.post("/remove", (req, res) => {
+  categoryService.remove(req, res, Category, isJson);
+});
 module.exports = router;
