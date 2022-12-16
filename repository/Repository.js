@@ -15,6 +15,23 @@ module.exports = {
     return result;
   },
 
+  findById: async (model, id) => {
+    const result = {};
+
+    await model
+      .findById(id, (err, doc) => {
+        if (err) {
+          result.err = err;
+        } else {
+          result.doc = doc;
+        }
+      })
+      .lean()
+      .clone();
+
+    return result;
+  },
+
   save: async (Model, model) => {
     const result = {};
     await new Model(model)

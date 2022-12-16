@@ -16,17 +16,6 @@ router.get("/", isAdmin, (req, res) => {
   res.render("admin/index");
 });
 
-router.get("/categories/edit/:id", isAdmin, (req, res) => {
-  Category.findById(req.params.id, (err, category) => {
-    if (err) {
-      req.flash("errorMessage", "Esta categoria não existe!");
-      res.redirect("/admin/categories");
-    } else {
-      res.render("admin/editCategory", { category: category });
-    }
-  }).lean();
-});
-
 router.post("/categories/alter/:id", isAdmin, (req, res) => {
   const category = {
     _id: req.params.id,

@@ -1,5 +1,6 @@
 const repository = require("../repository/Repository");
 const validation = require("../utils/Validation");
+const mongoose = require("mongoose");
 
 module.exports = {
   findAll: async (req, res, model, isJson) => {
@@ -32,6 +33,45 @@ module.exports = {
           `Houve um erro ao listar as categorias! ${result.err.message}`
         );
         res.redirect("/admin");
+      }
+  },
+
+  findById: async (req, res, model, isJson) => {
+    // Testing if Id is a ObjectId valid.
+    const isIdValid = mongoose.Types.ObjectId.isValid(req.params.id);
+
+    let result = {};
+    if (isIdValid) {
+      result = await repository.findById(model, req.params.id);
+    }
+
+    // Checking is exist a doc
+    if (result.doc) {
+      isJson
+        ? res.json(result.doc)
+        : res.render("admin/editCategory", { category: result.doc });
+    } else {
+      if (isJson) {
+        res.status(404).json({
+          erro: "404",
+          mensagem: `Não existe categoria com o id! ${req.params.id}`,
+        });
+      } else {
+        res.status(404);
+        req.flash("errorMessage", "Esta categoria não existe!");
+        res.redirect("/admin/categories");
+      }
+    }
+    // Checking is exist error
+    if (result.err)
+      if (isJson) {
+        res.status(404).json({ error: 404, message: result.err.message });
+      } else {
+        req.flash(
+          "errorMessage",
+          `Esta categoria não existe! ${result.err.message}`
+        );
+        res.redirect("/admin/categories");
       }
   },
 

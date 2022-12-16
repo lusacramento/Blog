@@ -17,6 +17,10 @@ router.post("/save", (req, res) => {
   categoryService.save(req, res, Category, isJson);
 });
 
+router.get("/edit/:id", (req, res) => {
+  categoryService.findById(req, res, Category, isJson);
+});
+
 router.use("/", (req, res) => {
   categoryService.findAll(req, res, Category, isJson);
 });
