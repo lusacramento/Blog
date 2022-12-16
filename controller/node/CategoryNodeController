@@ -9,8 +9,15 @@ const Category = mongoose.model("category");
 
 const isJson = false;
 
-router.use("/categories", (req, res) => {
-  categoryService.findAll(req, res, Category, isJson);
+router.get("/add", (req, res) => {
+  res.render("admin/addCategory");
 });
 
+router.post("/save", (req, res) => {
+  categoryService.save(req, res, Category, isJson);
+});
+
+router.use("/", (req, res) => {
+  categoryService.findAll(req, res, Category, isJson);
+});
 module.exports = router;

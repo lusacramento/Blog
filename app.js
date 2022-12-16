@@ -84,8 +84,8 @@ mongoose
 
 // Rotas
 
-app.use("/api", categoryRestController);
-app.use("/admin", categoryNodeController);
+app.use("/api/categories", categoryRestController);
+app.use("/admin/categories", categoryNodeController);
 
 app.use("/admin", adminRoute);
 app.use("/users", userRoute);

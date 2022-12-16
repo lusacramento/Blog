@@ -16,64 +16,6 @@ router.get("/", isAdmin, (req, res) => {
   res.render("admin/index");
 });
 
-// Rotas Categorias
-// router.get("/categories", isAdmin, (req, res) => {
-//   Category.find()
-//     .sort({ date: "desc" })
-//     .lean()
-//     .then((categories) => {
-//       res.render("admin/categories", { categories: categories });
-//     })
-//     .catch((err) => {
-//       req.flash("errorMessage", "Houve um erro ao listar as categorias!");
-//     });
-// });
-
-router.get("/categories/add", isAdmin, (req, res) => {
-  res.render("admin/addCategory");
-});
-
-router.post("/categories/save", isAdmin, (req, res) => {
-  let errors = [];
-
-  if (
-    !req.body.name ||
-    typeof req.body.name === undefined ||
-    req.body.name === null
-  )
-    errors.push({ message: "Nome inválido!" });
-
-  if (
-    !req.body.slug ||
-    typeof req.body.slug === undefined ||
-    req.body.slug === null
-  )
-    errors.push({ message: "Slug inválido!" });
-
-  if (errors.length > 0) {
-    res.render("admin/addCategory", { errors: errors });
-  } else {
-    const category = {
-      name: req.body.name,
-      slug: req.body.slug.trim().toLowerCase(),
-    };
-
-    new Category(category)
-      .save()
-      .then(() => {
-        req.flash("successMessage", "Categoria cadastrada com sucesso!");
-        res.redirect("/admin/categories");
-      })
-      .catch((err) => {
-        req.flash(
-          "errorMessage",
-          "Ocorreu um erro ao salar no bando de dados. Tente novamente."
-        );
-        res.redirect("/admin");
-        console.error("Erro ao salvar: ", err);
-      });
-  }
-});
 router.get("/categories/edit/:id", isAdmin, (req, res) => {
   Category.findById(req.params.id, (err, category) => {
     if (err) {
