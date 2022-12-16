@@ -45,15 +45,15 @@ module.exports = {
     if (validation.isEmpty(req.body.slug))
       errors.push({ message: "Slug inválido!" });
 
-    if (errors.length > 0) {
-      res.render("admin/addCategory", { errors: errors });
-    } else {
-      // Create object
-      const category = {
-        name: req.body.name,
-        slug: req.body.slug.trim().toLowerCase(),
-      };
+    // Create object
+    const category = {
+      name: req.body.name,
+      slug: req.body.slug.trim().toLowerCase(),
+    };
 
+    if (errors.length > 0) {
+      res.render("admin/addCategory", { errors: errors, category: category });
+    } else {
       // Trying save data
       const result = await repository.save(model, category);
 
