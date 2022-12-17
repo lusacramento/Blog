@@ -1,10 +1,11 @@
 module.exports = {
-  findAll: async (model) => {
+  findAll: async (model, populate) => {
     const result = {};
     await model
       .find()
       .sort({ date: "desc" })
       .lean()
+      .populate(populate)
       .then((docs) => {
         result.docs = docs.slice();
       })
@@ -15,7 +16,7 @@ module.exports = {
     return result;
   },
 
-  findById: async (model, id) => {
+  findById: async (model, id, populate) => {
     const result = {};
 
     await model
@@ -27,6 +28,7 @@ module.exports = {
         }
       })
       .lean()
+      .populate(populate)
       .clone();
 
     return result;

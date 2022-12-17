@@ -8,7 +8,10 @@ const session = require("express-session");
 const flash = require("connect-flash");
 
 const categoryRestController = require("./controller/rest/CategoryRestController");
+const postNodeController = require("./controller/node/PostNodeController");
+
 const categoryNodeController = require("./controller/node/CategoryNodeController");
+const postRestController = require("./controller/rest/PostRestController");
 
 const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
@@ -83,9 +86,13 @@ mongoose
   });
 
 // Rotas
-
-app.use("/api/categories", categoryRestController);
+// Node Routes
 app.use("/admin/categories", categoryNodeController);
+app.use("/admin/posts", postNodeController);
+
+// Rest Routes
+app.use("/api/categories", categoryRestController);
+app.use("/api/posts", postRestController);
 
 app.use("/admin", adminRoute);
 app.use("/users", userRoute);
