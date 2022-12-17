@@ -13,7 +13,6 @@ const postNodeController = require("./controller/node/PostNodeController");
 const categoryNodeController = require("./controller/node/CategoryNodeController");
 const postRestController = require("./controller/rest/PostRestController");
 
-const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
 const app = express();
@@ -94,7 +93,6 @@ app.use("/admin/posts", postNodeController);
 app.use("/api/categories", categoryRestController);
 app.use("/api/posts", postRestController);
 
-app.use("/admin", adminRoute);
 app.use("/users", userRoute);
 
 app.use("/post/:slug", (req, res) => {
