@@ -11,8 +11,9 @@ const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
 const app = express();
-const port = 5000;
-const uriMongoDb = "mongodb://127.0.0.1:27017/blogapp";
+const port = process.env.APP_PORT;
+
+const uriMongoDb = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
 require("./models/Post");
 const Post = mongoose.model("post");
@@ -73,10 +74,10 @@ mongoose.set("strictQuery", false);
 mongoose
   .connect(uriMongoDb)
   .then(() => {
-    console.log("Conectado ao Mongodb com sucesso!");
+    console.log(`Conected in ${uriMongoDb} with success!`);
   })
   .catch((err) => {
-    console.error(`Erro ao se conectar! ${err}`);
+    console.error(`Error connecting in ${uriMongoDb}! ${err}`);
   });
 
 // Rotas
