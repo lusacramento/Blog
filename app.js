@@ -9,9 +9,11 @@ const flash = require("connect-flash");
 
 const categoryRestController = require("./controller/rest/CategoryRestController");
 const postNodeController = require("./controller/node/PostNodeController");
+const userNodeController = require("./controller/node/UserNodeController");
 
 const categoryNodeController = require("./controller/node/CategoryNodeController");
 const postRestController = require("./controller/rest/PostRestController");
+// const userRestController = require("./controller/rest/UserRestController");
 
 const userRoute = require("./routes/userRoute");
 
@@ -88,12 +90,13 @@ mongoose
 // Node Routes
 app.use("/admin/categories", categoryNodeController);
 app.use("/admin/posts", postNodeController);
+app.use("/users", userNodeController);
 
 // Rest Routes
 app.use("/api/categories", categoryRestController);
 app.use("/api/posts", postRestController);
 
-app.use("/users", userRoute);
+// app.use("/users", userRoute);
 
 app.use("/post/:slug", (req, res) => {
   Post.findOne({ slug: req.params.slug })
