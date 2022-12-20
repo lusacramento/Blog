@@ -53,6 +53,21 @@ module.exports = {
     return result;
   },
 
+  findOne: async (model, query) => {
+    const result = {};
+
+    await model
+      .findOne(query)
+      .then((doc) => {
+        result.doc = doc;
+      })
+      .catch((err) => {
+        result.err = err;
+      });
+
+    return result;
+  },
+
   // Search a document by Id and update it.
   findByIdAndUpdate: async (model, data, update) => {
     const result = {};
