@@ -1,7 +1,6 @@
 // Require
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const categoryService = require("../../service/CategoryService");
 
