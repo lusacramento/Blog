@@ -2,10 +2,10 @@
   "name": "nodejs-mongodb",
   "version": "1.0.0",
   "description": "Estudo sobre nodejs com mongodb",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r dotenv/config app.js"
+    "dev": "nodemon -r esm -r dotenv/config app.js"
   },
   "keywords": [
     "nodejs",
@@ -17,15 +17,20 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
     "connect-flash": "^0.1.1",
-    "dotenv": "^16.0.3",
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
+    "esm": "^3.2.25",
     "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
     "mongoose": "^6.8.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "pm2": "^5.2.2",
     "prettier": "^2.8.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
   }
 }
