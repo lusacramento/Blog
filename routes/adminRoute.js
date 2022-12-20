@@ -224,4 +224,4 @@ router.post("/posts/remove", isAdmin, (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

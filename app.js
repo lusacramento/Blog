@@ -1,14 +1,13 @@
 // Carregando módulos
-const express = require("express");
+import express from "express";
 const handlebars = require("express-handlebars");
-const bodyParser = require("body-parser");
-const path = require("path");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const flash = require("connect-flash");
+import path from "path";
+import mongoose from "mongoose";
+import session from "express-session";
+import flash from "connect-flash";
 
-const adminRoute = require("./routes/adminRoute");
-const userRoute = require("./routes/userRoute");
+import adminRoute from "./routes/adminRoute";
+import userRoute from "./routes/userRoute";
 
 const app = express();
 const port = process.env.APP_PORT;
