@@ -1,0 +1,32 @@
+// Require
+const express = require("express");
+const router = express.Router();
+
+const categoryService = require("../../service/CategoryService");
+
+const isJson = false;
+
+router.get("/add", (req, res) => {
+  res.render("admin/addCategory");
+});
+
+router.post("/save", (req, res) => {
+  categoryService.save(req, res, isJson);
+});
+
+router.get("/edit/:id", (req, res) => {
+  categoryService.findById(req, res, isJson);
+});
+
+router.post("/alter/:id", (req, res) => {
+  categoryService.alter(req, res, isJson);
+});
+
+router.get("/", (req, res) => {
+  categoryService.findAll(req, res, isJson);
+});
+
+router.post("/remove", (req, res) => {
+  categoryService.remove(req, res, isJson);
+});
+module.exports = router;

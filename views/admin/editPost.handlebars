@@ -52,6 +52,13 @@
           class="form-select"
           aria-label="Selecione a categoria"
         >
+          {{#if post.category}}
+            <option
+              style="font-weight: bold;"
+              value="{{post.category._id}}"
+              selected
+            >{{post.category.name}}</option>
+          {{/if}}
           {{#each categories}}
             <option value="{{_id}}">{{name}}</option>
           {{else}}
