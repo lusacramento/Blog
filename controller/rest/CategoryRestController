@@ -5,9 +5,6 @@ const mongoose = require("mongoose");
 
 const categoryService = require("../../service/CategoryService");
 
-require("../../models/Category");
-const Category = mongoose.model("category");
-
 const isJson = true;
 
 router.get("/:id", (req, res) => {
