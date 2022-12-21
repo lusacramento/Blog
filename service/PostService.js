@@ -1,19 +1,16 @@
-// Requests
 const repository = require("../repository/Repository");
 const validation = require("../utils/Validation");
 const mongoose = require("mongoose");
 
-require("../models/Post");
-const Post = mongoose.model("post");
+import { PostModel } from "../models/Post";
 
-require("../models/Category");
-const Category = mongoose.model("category");
+import { CategoryModel } from "../models/Category";
 
 module.exports = {
   findAll: async (req, res, isJson) => {
     const populate = "category";
 
-    const result = await repository.findAll(Post, populate);
+    const result = await repository.findAll(PostModel, populate);
     // Checking is exist docs
     if (result.docs) {
       if (result.docs.length !== 0) {
@@ -52,7 +49,7 @@ module.exports = {
     let result = {};
     const populate = "category";
     if (isIdValid) {
-      result = await repository.findById(Post, req.params.id, populate);
+      result = await repository.findById(PostModel, req.params.id, populate);
     }
 
     // Checking is exist a doc
@@ -60,7 +57,7 @@ module.exports = {
       if (isJson) {
         res.json(result.doc);
       } else {
-        const categories = await repository.findAll(Category);
+        const categories = await repository.findAll(CategoryModel);
 
         res.render("admin/editPost", {
           post: result.doc,
@@ -93,7 +90,7 @@ module.exports = {
   },
 
   add: async (req, res) => {
-    const result = await repository.findAll(Category);
+    const result = await repository.findAll(CategoryModel);
     if (result.docs) {
       res.render("admin/addPost", { categories: result.docs });
     }
@@ -131,7 +128,7 @@ module.exports = {
       res.render("admin/addPost", { errors: errors, post: post });
     } else {
       // Trying save data
-      const result = await repository.save(Post, post);
+      const result = await repository.save(PostModel, post);
 
       // Checking is exist docs
       if (result.docs) {
@@ -187,7 +184,7 @@ module.exports = {
     if (validation.isEmpty(post.slug))
       errors.push({ message: "Slug inválido!" });
 
-    const result = await repository.findByIdAndUpdate(Post, post);
+    const result = await repository.findByIdAndUpdate(PostModel, post);
     if (result.doc) {
       if (isJson) {
         res.status(200).json(result.doc);
@@ -228,7 +225,7 @@ module.exports = {
   },
 
   remove: async (req, res, isJson) => {
-    const result = await repository.findByIdAndRemove(Post, req.body.id);
+    const result = await repository.findByIdAndRemove(PostModel, req.body.id);
 
     if (result.err) {
       if (isJson) {
