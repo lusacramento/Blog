@@ -29,4 +29,4 @@ router.get("/", (req, res) => {
   postService.findAll(req, res, isJson);
 });
 
-module.exports = router;
+export default router;

@@ -26,4 +26,4 @@ router.get("/logout", (req, res) => {
   userService.logout(req, res, isJson);
 });
 
-module.exports = router;
+export default router;

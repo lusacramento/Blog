@@ -6,15 +6,13 @@ import mongoose from "mongoose";
 import session from "express-session";
 import flash from "connect-flash";
 
-const categoryRestController = require("./controller/rest/CategoryRestController");
-const postNodeController = require("./controller/node/PostNodeController");
-const userNodeController = require("./controller/node/UserNodeController");
+import categoryRestController from "./controller/rest/CategoryRestController";
+import postNodeController from "./controller/node/PostNodeController";
+import userNodeController from "./controller/node/UserNodeController";
 
-const categoryNodeController = require("./controller/node/CategoryNodeController");
-const postRestController = require("./controller/rest/PostRestController");
-// const userRestController = require("./controller/rest/UserRestController");
-
-const userRoute = require("./routes/userRoute");
+import categoryNodeController from "./controller/node/CategoryNodeController";
+import postRestController from "./controller/rest/PostRestController";
+// const userRestController from "./controller/rest/UserRestController";
 
 const app = express();
 const port = process.env.APP_PORT;
@@ -27,7 +25,7 @@ const Post = mongoose.model("post");
 require("./models/Category");
 const Category = mongoose.model("category");
 
-const passport = require("passport");
+import passport from "passport";
 require("./config/auth")(passport);
 
 // Configurações

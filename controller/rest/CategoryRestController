@@ -30,4 +30,4 @@ router.get("/", (req, res) => {
   categoryService.findAll(req, res, isJson);
 });
 
-module.exports = router;
+export default router;

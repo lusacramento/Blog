@@ -30,4 +30,4 @@ router.get("/", (req, res) => {
 router.post("/remove", (req, res) => {
   postService.remove(req, res, isJson);
 });
-module.exports = router;
+export default router;
