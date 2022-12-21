@@ -2,7 +2,12 @@
 import express from "express";
 const handlebars = require("express-handlebars");
 import path from "path";
+
 import mongoose from "mongoose";
+import "./config/db";
+import { CategoryModel } from "./models/Category";
+import { PostModel } from "./models/Post";
+
 import session from "express-session";
 import flash from "connect-flash";
 
@@ -16,14 +21,6 @@ import postRestController from "./controller/rest/PostRestController";
 
 const app = express();
 const port = process.env.APP_PORT;
-
-const uriMongoDb = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-
-require("./models/Post");
-const Post = mongoose.model("post");
-
-require("./models/Category");
-const Category = mongoose.model("category");
 
 import passport from "passport";
 require("./config/auth")(passport);
@@ -72,18 +69,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mongoose
-mongoose.Promise = global.Promise;
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(uriMongoDb)
-  .then(() => {
-    console.log(`Conected in ${uriMongoDb} with success!`);
-  })
-  .catch((err) => {
-    console.error(`Error connecting in ${uriMongoDb}! ${err}`);
-  });
-
 // Rotas
 // Node Routes
 app.use("/admin/categories", categoryNodeController);
@@ -97,12 +82,12 @@ app.use("/api/posts", postRestController);
 // app.use("/users", userRoute);
 
 app.use("/post/:slug", (req, res) => {
-  Post.findOne({ slug: req.params.slug })
+  PostModel.findOne({ slug: req.params.slug })
     .populate("category")
     .lean()
     .then((post) => {
       if (post) {
-        Category.findById(post.category, (err, category) => {
+        CategoryModel.findById(post.category, (err, category) => {
           if (category) {
             res.render("post/index", { post: post });
           } else {
@@ -123,7 +108,7 @@ app.use("/post/:slug", (req, res) => {
 });
 
 app.use("/categories", (req, res) => {
-  Category.find()
+  CategoryModel.find()
     .lean()
     .then((categories) => {
       res.render("category/index", { categories: categories });
@@ -137,10 +122,10 @@ app.use("/categories", (req, res) => {
 });
 
 app.use("/category/:slug", (req, res) => {
-  Category.findOne({ slug: req.params.slug })
+  CategoryModel.findOne({ slug: req.params.slug })
     .then((category) => {
       if (category) {
-        Post.find({ category: category._id })
+        PostModel.find({ category: category._id })
           .lean()
           .then((posts) => {
             res.render("category/posts", { posts: posts });
@@ -162,12 +147,9 @@ app.use("/category/:slug", (req, res) => {
     });
 });
 
-app.use("/404", (req, res) => {
-  res.send("Erro 404");
-});
-
-app.use("/", (req, res) => {
-  Post.find()
+app.get("/", (req, res) => {
+  console.log("//");
+  PostModel.find()
     .lean()
     .populate("category")
     .sort({ date: "desc" })
@@ -180,6 +162,11 @@ app.use("/", (req, res) => {
     });
 });
 
+app.get("*", (req, res) => {
+  res
+    .status(404)
+    .send("<h1>Erro 404</h1><p>A página solicitada não foi encontrada!</p>");
+});
 // Outros
 app.listen(port, () => {
   console.log(`Server running on port ${port}...`);
