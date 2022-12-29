@@ -1,14 +1,13 @@
-const localStrategy = require("passport-local").Strategy;
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import { Strategy } from "passport-local";
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 // User Model
-require("../models/User");
-const User = mongoose.model("user");
+import { UserModel } from "../models/User.js";
 
-module.exports = function (passport) {
+const auth = (passport) => {
   passport.use(
-    new localStrategy(
+    new Strategy(
       { usernameField: "email", passwordField: "password" },
       (email, password, done) => {
         User.findOne({ email: email }).then((user) => {
@@ -39,3 +38,5 @@ module.exports = function (passport) {
     });
   });
 };
+
+export default auth;
