@@ -1,4 +1,4 @@
-module.exports = {
+const Repository = {
   // Search all documents.
   findAll: async (model, populate) => {
     const result = {};
@@ -8,8 +8,8 @@ module.exports = {
       .sort({ date: "desc" })
       .lean()
       .populate(populate)
-      .then((docs) => {
-        result.docs = docs.slice();
+      .then((doc) => {
+        result.doc = doc.slice();
       })
       .catch((err) => {
         result.err = err;
@@ -37,14 +37,25 @@ module.exports = {
     return result;
   },
 
+  existsByName: async (model, name) => {
+    let isExists = false;
+    await model
+      .exists({ name: name })
+      .then((doc) => {
+        doc === null ? (isExists = false) : (isExists = true);
+      })
+      .catch(() => false);
+    return isExists;
+  },
+
   // Save a document.
   save: async (model, data) => {
     const result = {};
 
     await new model(data)
       .save()
-      .then((docs) => {
-        result.docs = docs._doc;
+      .then((doc) => {
+        result.doc = doc._doc;
       })
       .catch((err) => {
         result.err = err;
@@ -69,7 +80,7 @@ module.exports = {
   },
 
   // Search a document by Id and update it.
-  findByIdAndUpdate: async (model, data, update) => {
+  findByIdAndUpdate: async (model, data) => {
     const result = {};
 
     await model
@@ -101,3 +112,5 @@ module.exports = {
     return result;
   },
 };
+
+export default Repository;
