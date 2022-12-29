@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
-module.exports = {
+export const Validation = {
   isEmpty: (string) => {
     if (!string || typeof string === undefined || string === null) return true;
     else return false;

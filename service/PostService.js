@@ -1,10 +1,10 @@
-const repository = require("../repository/Repository");
-const validation = require("../utils/Validation");
+import repository from "../repository/Repository.js";
+import validation from "../utils/Validation.js";
 const mongoose = require("mongoose");
 
-import { PostModel } from "../models/Post";
+import { PostModel } from "../models/Post.js";
 
-import { CategoryModel } from "../models/Category";
+import { CategoryModel } from "../models/Category.js";
 
 module.exports = {
   findAll: async (req, res, isJson) => {
