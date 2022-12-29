@@ -2,15 +2,17 @@
   "name": "nodejs-mongodb",
   "version": "1.0.0",
   "description": "Estudo sobre nodejs com mongodb",
-  "main": "index.mjs",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r esm -r dotenv/config app.js"
+    "start": "nodemon --inspect -r dotenv/config app.js",
+    "dev": "nodemon --inspect app.js",
+    "debug": "nodemon --inspect=0.0.0.0 -r dotenv/config app.js"
   },
   "keywords": [
     "nodejs",
     "mongodb"
   ],
+  "type": "module",
   "author": "Lu Sacramento",
   "license": "ISC",
   "dependencies": {
