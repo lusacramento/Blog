@@ -1,6 +1,6 @@
 <h2>Lista de Categorias</h2>
 <hr />
-<a href="/admin/categories/add">
+<a href="/api/categories/add">
   <button class="btn btn-success">Nova categoria</button>
 </a>
 {{#each categories}}
@@ -12,12 +12,63 @@
       <small>Data de criação: {{date}}</small>
       <br />
       <div class="mt-2">
-        <a href="/admin/categories/edit/{{_id}}">
+        <a href="/api/categories/{{_id}}">
           <button class="btn btn-warning">Editar</button>
         </a>
-        <form action="/admin/categories/remove" method="post" class="d-inline">
-          <input type="hidden" name="id" value="{{_id}}" />
-          <button class="btn btn-danger">Apagar</button>
+        <form
+          id="form{{_id}}"
+          action="/api/categories/remove/"
+          method="post"
+          class="d-inline"
+        >
+
+          <div
+            class="modal fade"
+            id="modal{{_id}}"
+            tabindex="-1"
+            aria-labelledby="modal"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modal">Confirmação</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Deseja realmente apagar permanentemente a categoria
+                  {{name}}?
+                </div>
+                <div class="modal-footer">
+                  <a href="/api/categories">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Não</button>
+                  </a>
+                  <button
+                    type="submit"
+                    data-bs-dismiss="modal"
+                    class="btn btn-primary"
+                  >Sim</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="_id" value="{{_id}}" />
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#modal{{_id}}"
+          >Apagar</button>
+
         </form>
       </div>
     </div>
