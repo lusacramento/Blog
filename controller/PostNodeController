@@ -1,0 +1,32 @@
+// Require
+import express from "express";
+const router = express.Router();
+
+import postService from "../../service/PostService.js";
+
+const isJson = false;
+
+router.get("/add", (req, res) => {
+  postService.add(req, res);
+});
+
+router.post("/save", (req, res) => {
+  postService.save(req, res, isJson);
+});
+
+router.get("/edit/:id", (req, res) => {
+  postService.findById(req, res, isJson);
+});
+
+router.post("/alter/:id", (req, res) => {
+  postService.alter(req, res, isJson);
+});
+
+router.get("/", (req, res) => {
+  postService.findAll(req, res, isJson);
+});
+
+router.post("/remove", (req, res) => {
+  postService.remove(req, res, isJson);
+});
+export default router;
