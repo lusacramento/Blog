@@ -5,7 +5,7 @@
 <h2>Adicionar Categoria</h2>
 <div class="card">
   <div class="card-body">
-    <form action="/admin/categories/save" method="post">
+    <form action="/api/categories/save" method="post">
       <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
         <input
@@ -14,7 +14,7 @@
           id="name"
           name="name"
           placeholder="Nome da Categoria"
-          value="{{category.name}}"
+          value="{{addCategory.name}}"
         />
       </div>
       <div class="mb-3">
@@ -25,7 +25,7 @@
           id="slug"
           name="slug"
           placeholder="Slug da Categoria"
-          value="{{category.slug}}"
+          value="{{addCategory.slug}}"
         />
       </div>
       <button class="btn btn-success" type="submit">Adicionar</button>

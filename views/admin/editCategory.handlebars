@@ -5,7 +5,7 @@
 <h2>Editar Categoria</h2>
 <div class="card">
   <div class="card-body">
-    <form action="/admin/categories/alter/{{category._id}}" method="post">
+    <form action="/api/categories/{{editCategory._id}}" method="post">
       <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
         <input
@@ -14,7 +14,7 @@
           id="name"
           name="name"
           placeholder="Nome da Categoria"
-          value="{{category.name}}"
+          value="{{editCategory.name}}"
         />
       </div>
       <div class="mb-3">
@@ -24,7 +24,7 @@
           type="text"
           id="slug"
           name="slug"
-          value="{{category.slug}}"
+          value="{{editCategory.slug}}"
           placeholder="Slug da Categoria"
         />
       </div>

@@ -1,9 +1,8 @@
 // Require
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const mongoose = require("mongoose");
 
-const postService = require("../../service/PostService");
+import postService from "../../service/PostService.js";
 
 const isJson = false;
 

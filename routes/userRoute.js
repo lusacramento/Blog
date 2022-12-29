@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 require("../models/User");
 const User = mongoose.model("user");
 

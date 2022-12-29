@@ -1,11 +1,11 @@
-const repository = require("../repository/Repository");
-const validation = require("../utils/Validation");
+import repository from "../repository/Repository.js";
+import validation from "../utils/Validation.js";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 require("../models/User");
 const User = mongoose.model("user");
 
-const passport = require("passport");
+import passport from "passport";
 
 module.exports = {
   register: (req, res, isJson) => {

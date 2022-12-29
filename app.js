@@ -1,32 +1,30 @@
-// Carregando módulos
+// Express and Handlebars
 import express from "express";
-const handlebars = require("express-handlebars");
+import handlebars from "express-handlebars";
 import path from "path";
-import mongoose from "mongoose";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Dbs and models
+import "./config/db.js";
+import { CategoryModel } from "./models/Category.js";
+import { PostModel } from "./models/Post.js";
+
+// Session and Flash
 import session from "express-session";
 import flash from "connect-flash";
 
-import categoryRestController from "./controller/rest/CategoryRestController";
-import postNodeController from "./controller/node/PostNodeController";
-import userNodeController from "./controller/node/UserNodeController";
-
-import categoryNodeController from "./controller/node/CategoryNodeController";
-import postRestController from "./controller/rest/PostRestController";
-// const userRestController from "./controller/rest/UserRestController";
+// Controllers
+import CategoryController from "./controller/CategoryController.js";
 
 const app = express();
-const port = process.env.APP_PORT;
-
-const uriMongoDb = `${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-
-require("./models/Post");
-const Post = mongoose.model("post");
-
-require("./models/Category");
-const Category = mongoose.model("category");
+const port = process.env.SERVER_PORT;
 
 import passport from "passport";
-require("./config/auth")(passport);
+
+import auth from "./config/auth.js";
+auth(passport);
 
 // Configurações
 // BodyParser
@@ -72,114 +70,97 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mongoose
-mongoose.Promise = global.Promise;
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(uriMongoDb)
-  .then(() => {
-    console.log(`Conected in ${uriMongoDb} with success!`);
-  })
-  .catch((err) => {
-    console.error(`Error connecting in ${uriMongoDb}! ${err}`);
-  });
-
 // Rotas
 // Node Routes
-app.use("/admin/categories", categoryNodeController);
-app.use("/admin/posts", postNodeController);
-app.use("/users", userNodeController);
 
-// Rest Routes
-app.use("/api/categories", categoryRestController);
-app.use("/api/posts", postRestController);
+app.use("/api/categories", CategoryController);
 
-// app.use("/users", userRoute);
+// app.use("/post/:slug", (req, res) => {
+//   PostModel.findOne({ slug: req.params.slug })
+//     .populate("category")
+//     .lean()
+//     .then((post) => {
+//       if (post) {
+//         CategoryModel.findById(post.category, (err, category) => {
+//           if (category) {
+//             res.render("post/index", { post: post });
+//           } else {
+//             req.flash(
+//               `Houve um erro interno. Categoria não encontrada: ${err}`
+//             );
+//           }
+//         }).lean();
+//       } else {
+//         req.flash("errorMessage", "Esta postagem não existe");
+//         res.redirect("/");
+//       }
+//     })
+//     .catch((err) => {
+//       req.flash("errorMessage", "Houve um ero interno.");
+//       res.redirect("/");
+//     });
+// });
 
-app.use("/post/:slug", (req, res) => {
-  Post.findOne({ slug: req.params.slug })
-    .populate("category")
-    .lean()
-    .then((post) => {
-      if (post) {
-        Category.findById(post.category, (err, category) => {
-          if (category) {
-            res.render("post/index", { post: post });
-          } else {
-            req.flash(
-              `Houve um erro interno. Categoria não encontrada: ${err}`
-            );
-          }
-        }).lean();
-      } else {
-        req.flash("errorMessage", "Esta postagem não existe");
-        res.redirect("/");
-      }
-    })
-    .catch((err) => {
-      req.flash("errorMessage", "Houve um ero interno.");
-      res.redirect("/");
-    });
-});
+// app.use("/categories", (req, res) => {
+//   CategoryModel.find()
+//     .lean()
+//     .then((categories) => {
+//       res.render("category/index", { categories: categories });
+//     })
+//     .catch((err) => {
+//       req.flash(
+//         "errorMensage",
+//         "Houve um erro interno ao listar as categorias"
+//       );
+//     });
+// });
 
-app.use("/categories", (req, res) => {
-  Category.find()
-    .lean()
-    .then((categories) => {
-      res.render("category/index", { categories: categories });
-    })
-    .catch((err) => {
-      req.flash(
-        "errorMensage",
-        "Houve um erro interno ao listar as categorias"
-      );
-    });
-});
+// app.use("/category/:slug", (req, res) => {
+//   CategoryModel.findOne({ slug: req.params.slug })
+//     .then((category) => {
+//       if (category) {
+//         PostModel.find({ category: category._id })
+//           .lean()
+//           .then((posts) => {
+//             res.render("category/posts", { posts: posts });
+//           })
+//           .catch((err) => {
+//             req.flash(
+//               `errorMessage", "Houve um erro ao listar as postagens! ${err}`
+//             );
+//             res.redirect("/");
+//           });
+//       } else {
+//         req.flash("errorMessage", "Esta categoria não existe!");
+//         res.redirect("/");
+//       }
+//     })
+//     .catch((err) => {
+//       req.flash("errorMessage", `Houve um erro ao buscar a categoria: ${err}`);
+//       res.redirect("/");
+//     });
+// });
 
-app.use("/category/:slug", (req, res) => {
-  Category.findOne({ slug: req.params.slug })
-    .then((category) => {
-      if (category) {
-        Post.find({ category: category._id })
-          .lean()
-          .then((posts) => {
-            res.render("category/posts", { posts: posts });
-          })
-          .catch((err) => {
-            req.flash(
-              `errorMessage", "Houve um erro ao listar as postagens! ${err}`
-            );
-            res.redirect("/");
-          });
-      } else {
-        req.flash("errorMessage", "Esta categoria não existe!");
-        res.redirect("/");
-      }
-    })
-    .catch((err) => {
-      req.flash("errorMessage", `Houve um erro ao buscar a categoria: ${err}`);
-      res.redirect("/");
-    });
-});
+// app.get("/", (req, res) => {
+//   console.log("//");
+//   PostModel.find()
+//     .lean()
+//     .populate("category")
+//     .sort({ date: "desc" })
+//     .then((posts) => {
+//       res.render("index", { posts: posts });
+//     })
+//     .catch((err) => {
+//       req.flash("errMessage", "Houve um erro interno");
+//       res.redirect("/404");
+//     });
+// });
 
-app.use("/404", (req, res) => {
-  res.send("Erro 404");
-});
-
-app.use("/", (req, res) => {
-  Post.find()
-    .lean()
-    .populate("category")
-    .sort({ date: "desc" })
-    .then((posts) => {
-      res.render("index", { posts: posts });
-    })
-    .catch((err) => {
-      req.flash("errMessage", "Houve um erro interno");
-      res.redirect("/404");
-    });
-});
-
+// app.get("*", (req, res) => {
+//   res
+//     .status(404)
+//     .send("<h1>Erro 404</h1><p>A página solicitada não foi encontrada!</p>");
+// });
 // Outros
 app.listen(port, () => {
   console.log(`Server running on port ${port}...`);
